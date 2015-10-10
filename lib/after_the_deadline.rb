@@ -2,9 +2,10 @@ require 'crack'
 require 'net/http'
 require 'uri'
 
-def AfterTheDeadline(dictionary = nil, types = AfterTheDeadline::DEFAULT_IGNORE_TYPES)
+def AfterTheDeadline(uri = AfterTheDeadline::BASE_URI, dictionary = nil, types = AfterTheDeadline::DEFAULT_IGNORE_TYPES)
   AfterTheDeadline.set_custom_dictionary(dictionary)
   AfterTheDeadline.set_ignore_types(types)
+  AfterTheDeadline.set_uri(uri)
   nil
 end
 
@@ -25,6 +26,10 @@ class AfterTheDeadline
       elsif dict.kind_of?(String)
         File.open(dict) { |f| @@custom_dictionary = f.readlines.map &:strip }
       end
+    end
+
+    def set_uri(uri)
+      @uri = uri
     end
 
     def set_ignore_types(types)
